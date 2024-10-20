@@ -100,3 +100,10 @@ export function put<T>(...params: Parameters<typeof request.put>) {
 export function del<T>(...params: Parameters<typeof request.delete>) {
   return request.delete.call(null, ...params) as Promise<T | undefined>;
 }
+
+export interface PaginateData<T> {
+  records: T[];
+  page: number;
+  size: number;
+  total: number;
+}

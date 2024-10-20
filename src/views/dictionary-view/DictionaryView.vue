@@ -23,14 +23,10 @@ onMounted(() => {
     <Table
       :columns="categoryTableColumns"
       :dataSource="category.list"
-      :pagination="false"
       size="middle"
+      :scroll="{ y: 300 }"
     >
-      <template #bodyCell="{ value, column }">
-        <Button type="link" v-if="column.dataIndex === 'category'">
-          {{ value }}
-        </Button>
-        <Tag v-if="column.dataIndex === 'count'">{{ value }}</Tag>
+      <template #bodyCell="{ column }">
         <Space v-if="column.key === 'action'">
           <Button size="small" type="link">Update</Button>
           <Button size="small" danger type="link">Del</Button>

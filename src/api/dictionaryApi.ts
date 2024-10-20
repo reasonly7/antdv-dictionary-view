@@ -1,14 +1,18 @@
-import { get } from "./request";
+import { get, PaginateData } from "./request";
 
 const prefix = "/dictionary";
 
-export type CategoryItem = {
+export type DictionaryItem = {
+  id: number;
   category: string;
-  count: string;
+  description: null | string;
+  enable: boolean;
+  key: string;
+  value: string;
 };
 
 export const dictionaryApi = {
-  getCategories() {
-    return get<CategoryItem[]>(prefix);
+  query() {
+    return get<PaginateData<DictionaryItem>>(prefix);
   },
 };

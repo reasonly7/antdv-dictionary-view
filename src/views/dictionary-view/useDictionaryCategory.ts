@@ -1,15 +1,15 @@
 import { reactive, ref } from "vue";
-import { CategoryItem, dictionaryApi } from "@/api/dictionaryApi";
+import { dictionaryApi, DictionaryItem } from "@/api/dictionaryApi";
 import { useToggle } from "@vueuse/core";
 import { ColumnsType } from "ant-design-vue/es/table";
 
 export const uesDictionaryCategory = () => {
   const [loading, loadingToggle] = useToggle(false);
-  const list = ref<CategoryItem[]>([]);
+  const list = ref<DictionaryItem[]>([]);
 
   const refresh = async () => {
     loadingToggle(true);
-    list.value = (await dictionaryApi.getCategories()) || [];
+    list.value = (await dictionaryApi.query())?.records || [];
     loadingToggle(false);
   };
 
