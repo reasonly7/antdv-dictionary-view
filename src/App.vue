@@ -20,8 +20,8 @@ import DictionaryView from "@/views/dictionary-view/DictionaryView.vue";
   align-items: center;
   justify-content: center;
   .page-wrapper {
-    width: 800px;
-    height: 500px;
+    width: 1080px;
+    height: 650px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.05);

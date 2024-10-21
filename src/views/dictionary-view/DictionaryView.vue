@@ -1,15 +1,16 @@
 <script setup lang="ts">
 import { Button, Space, Table, Tag } from "ant-design-vue";
 import { onMounted } from "vue";
-import {
-  categoryTableColumns,
-  uesDictionaryCategory,
-} from "./useDictionaryCategory";
+import { dictionaryColumns } from "./dictionary.columns";
+import { usePagination } from "@/composables/usePagination";
+import { dictionaryApi } from "@/api/dictionaryApi";
 
-const category = uesDictionaryCategory();
+const { loading, pagination, records, search } = usePagination(
+  dictionaryApi.query
+);
 
 onMounted(() => {
-  category.refresh();
+  search();
 });
 </script>
 
@@ -21,13 +22,24 @@ onMounted(() => {
     </header>
 
     <Table
-      :columns="categoryTableColumns"
-      :dataSource="category.list"
+      :columns="dictionaryColumns"
+      :dataSource="records"
       size="middle"
-      :scroll="{ y: 300 }"
+      :pagination="pagination"
+      :scroll="{ y: 500 }"
+      :loading="loading"
     >
-      <template #bodyCell="{ column }">
-        <Space v-if="column.key === 'action'">
+      <template #bodyCell="{ column, value }">
+        <Tag
+          v-if="column.dataIndex === 'enable'"
+          :color="value ? 'blue' : 'red'"
+          size="small"
+          >{{ value ? "Enabled" : "Disabled" }}</Tag
+        >
+        <span v-else-if="column.dataIndex === 'description' && !value">
+          --
+        </span>
+        <Space v-else-if="column.key === 'action'">
           <Button size="small" type="link">Update</Button>
           <Button size="small" danger type="link">Del</Button>
         </Space>
