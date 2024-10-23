@@ -20,9 +20,12 @@ const emits = defineEmits<{
 }>();
 
 const expanded = ref(false);
+const containerRef = ref<HTMLDivElement | null>(null);
+const formRef = ref<FormInstance | null>(null);
+const formModel = ref<Record<string, unknown>>({});
+
 const _labelWidth = computed(() => props.labelWidth + "px");
 const _labelRest = computed(() => `calc(100% - ${props.labelWidth}px)`);
-const containerRef = ref<HTMLDivElement | null>(null);
 const { width: containerWidth, height: containerHeight } =
   useElementSize(containerRef);
 const responsiveAttrs = computed(() => {
@@ -56,18 +59,14 @@ const expandShow = computed(() => {
     responsiveAttrs.value.count < props.items.length
   );
 });
-const formRef = ref<FormInstance | null>(null);
-const formModel = ref<Record<string, unknown>>({});
 
 const reset = () => {
   formRef.value!.resetFields();
   emits("search", cloneDeep(formModel.value));
 };
-
 const query = () => {
   emits("search", cloneDeep(formModel.value));
 };
-
 const expandHandler = () => {
   expanded.value = !expanded.value;
   emits("expand", expanded.value);

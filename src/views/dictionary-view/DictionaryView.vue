@@ -1,15 +1,17 @@
 <script setup lang="ts">
 import { Button, Space, Table, Tag } from "ant-design-vue";
-import { onMounted } from "vue";
-import { dictionaryColumns } from "./dictionary.columns";
+import { onMounted, ref } from "vue";
+import { tableColumns } from "./table.columns";
 import { usePagination } from "@/composables/usePagination";
 import { dictionaryApi } from "@/api/dictionaryApi";
 import { SearchForm } from "@/components/search-form";
 import { searchItems } from "./search.items";
+import { FormModal } from "./form-modal";
 
 const { loading, pagination, records, search, searchParams } = usePagination(
   dictionaryApi.query
 );
+const modalOpen = ref(false);
 
 const searchHandler = (searchModel: Record<string, unknown>) => {
   Object.assign(searchParams.value, searchModel);
@@ -25,19 +27,24 @@ onMounted(() => {
   <div class="view-wrapper">
     <header class="view-header">
       <span class="view-title">Dictionary Management</span>
-      <Button type="primary">+Add</Button>
+      <Button type="primary" @click="modalOpen = true">+Add</Button>
     </header>
 
     <Table
-      :columns="dictionaryColumns"
+      :columns="tableColumns"
       :dataSource="records"
       size="middle"
       :pagination="pagination"
       :scroll="{ y: 500 }"
       :loading="loading"
+      class="dictionary-table"
     >
       <template #title>
-        <SearchForm :items="searchItems" @search="searchHandler"></SearchForm>
+        <SearchForm
+          :labelWidth="80"
+          :items="searchItems"
+          @search="searchHandler"
+        ></SearchForm>
       </template>
 
       <template #bodyCell="{ column, value }">
@@ -57,6 +64,7 @@ onMounted(() => {
         </Space>
       </template>
     </Table>
+    <FormModal v-model:open="modalOpen" />
   </div>
 </template>
 
@@ -71,6 +79,11 @@ onMounted(() => {
     .view-title {
       font-weight: bold;
       font-size: 1.25rem;
+    }
+  }
+  .dictionary-table {
+    :deep(.ant-table-title) {
+      padding: 20px 0;
     }
   }
 }

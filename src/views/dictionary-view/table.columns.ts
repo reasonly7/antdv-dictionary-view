@@ -1,6 +1,6 @@
 import { ColumnsType } from "ant-design-vue/es/table";
 
-export const dictionaryColumns: ColumnsType = [
+export const tableColumns: ColumnsType = [
   { title: "Category", dataIndex: "category" },
   { title: "Key", dataIndex: "key" },
   { title: "Value", dataIndex: "value" },
