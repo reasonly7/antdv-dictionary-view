@@ -1,4 +1,4 @@
-import { get, PaginateData } from "./request";
+import { get, PaginateData, QueryParams } from "./request";
 
 const prefix = "/dictionary";
 
@@ -12,7 +12,7 @@ export type DictionaryItem = {
 };
 
 export const dictionaryApi = {
-  query() {
-    return get<PaginateData<DictionaryItem>>(prefix);
+  query(params: QueryParams) {
+    return get<PaginateData<DictionaryItem>>(prefix, { params });
   },
 };

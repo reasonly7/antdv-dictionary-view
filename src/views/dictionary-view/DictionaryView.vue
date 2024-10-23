@@ -4,10 +4,17 @@ import { onMounted } from "vue";
 import { dictionaryColumns } from "./dictionary.columns";
 import { usePagination } from "@/composables/usePagination";
 import { dictionaryApi } from "@/api/dictionaryApi";
+import { SearchForm } from "@/components/search-form";
+import { searchItems } from "./search.items";
 
-const { loading, pagination, records, search } = usePagination(
+const { loading, pagination, records, search, searchParams } = usePagination(
   dictionaryApi.query
 );
+
+const searchHandler = (searchModel: Record<string, unknown>) => {
+  Object.assign(searchParams.value, searchModel);
+  search();
+};
 
 onMounted(() => {
   search();
@@ -29,13 +36,18 @@ onMounted(() => {
       :scroll="{ y: 500 }"
       :loading="loading"
     >
+      <template #title>
+        <SearchForm :items="searchItems" @search="searchHandler"></SearchForm>
+      </template>
+
       <template #bodyCell="{ column, value }">
         <Tag
           v-if="column.dataIndex === 'enable'"
           :color="value ? 'blue' : 'red'"
           size="small"
-          >{{ value ? "Enabled" : "Disabled" }}</Tag
         >
+          {{ value ? "Enabled" : "Disabled" }}
+        </Tag>
         <span v-else-if="column.dataIndex === 'description' && !value">
           --
         </span>

@@ -21,7 +21,7 @@ import DictionaryView from "@/views/dictionary-view/DictionaryView.vue";
   justify-content: center;
   .page-wrapper {
     width: 1080px;
-    height: 650px;
+    height: 750px;
     background-color: #fff;
     border-radius: 10px;
     box-shadow: 0 0 8px 4px rgba(0, 0, 0, 0.05);
