@@ -1,9 +1,9 @@
 <script setup lang="ts">
-import { Form, FormItem, Modal, Select } from "ant-design-vue";
+import { Form, FormItem, Modal, Select } from 'ant-design-vue'
 
-const open = defineModel<boolean>("open", { required: true });
+const open = defineModel<boolean>('open', { required: true })
 
-const setFormRef = (a: unknown) => {};
+const setFormRef = (a: unknown) => {}
 </script>
 
 <template>

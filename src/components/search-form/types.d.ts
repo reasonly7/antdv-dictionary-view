@@ -1,8 +1,8 @@
-import { Component } from 'vue';
+import { Component } from 'vue'
 
 export interface SearchFormItem {
-  name: string;
-  label: string;
-  model?: string;
-  component?: Component;
+  name: string
+  label: string
+  model?: string
+  component?: Component
 }

@@ -1,76 +1,76 @@
 <script setup lang="ts">
-import { computed, ref } from "vue";
-import { SearchFormItem } from "./types";
-import { Button, Form, FormInstance, FormItem, Input } from "ant-design-vue";
-import { DownOutlined, UpOutlined } from "@ant-design/icons-vue";
-import { useElementSize } from "@vueuse/core";
-import { cloneDeep } from "lodash-es";
+import { computed, ref } from 'vue'
+import { SearchFormItem } from './types'
+import { Button, Form, FormInstance, FormItem, Input } from 'ant-design-vue'
+import { DownOutlined, UpOutlined } from '@ant-design/icons-vue'
+import { useElementSize } from '@vueuse/core'
+import { cloneDeep } from 'lodash-es'
 
 const props = withDefaults(
   defineProps<{
-    items: SearchFormItem[];
-    labelWidth?: number;
+    items: SearchFormItem[]
+    labelWidth?: number
   }>(),
-  { labelWidth: 100 }
-);
+  { labelWidth: 100 },
+)
 
 const emits = defineEmits<{
-  search: [model: typeof formModel.value];
-  expand: [status: boolean];
-}>();
+  search: [model: typeof formModel.value]
+  expand: [status: boolean]
+}>()
 
-const expanded = ref(false);
-const containerRef = ref<HTMLDivElement | null>(null);
-const formRef = ref<FormInstance | null>(null);
-const formModel = ref<Record<string, unknown>>({});
+const expanded = ref(false)
+const containerRef = ref<HTMLDivElement | null>(null)
+const formRef = ref<FormInstance | null>(null)
+const formModel = ref<Record<string, unknown>>({})
 
-const _labelWidth = computed(() => props.labelWidth + "px");
-const _labelRest = computed(() => `calc(100% - ${props.labelWidth}px)`);
+const _labelWidth = computed(() => props.labelWidth + 'px')
+const _labelRest = computed(() => `calc(100% - ${props.labelWidth}px)`)
 const { width: containerWidth, height: containerHeight } =
-  useElementSize(containerRef);
+  useElementSize(containerRef)
 const responsiveAttrs = computed(() => {
-  const allCount = props.items.length;
+  const allCount = props.items.length
   if (containerWidth.value > 1000) {
     return expanded.value && allCount > 3
-      ? { count: allCount, width: "w-1-3", layout: "horizontal" }
-      : { count: 3, width: "w-1-4", layout: "horizontal" };
+      ? { count: allCount, width: 'w-1-3', layout: 'horizontal' }
+      : { count: 3, width: 'w-1-4', layout: 'horizontal' }
   } else if (containerWidth.value > 700) {
     return expanded.value && allCount > 2
-      ? { count: allCount, width: "w-1-2", layout: "horizontal" }
-      : { count: 2, width: "w-1-3", layout: "horizontal" };
+      ? { count: allCount, width: 'w-1-2', layout: 'horizontal' }
+      : { count: 2, width: 'w-1-3', layout: 'horizontal' }
   } else if (containerWidth.value > 500) {
     return {
       count: expanded.value && allCount > 1 ? allCount : 1,
-      width: "w-1-2",
-      layout: "horizontal",
-    };
+      width: 'w-1-2',
+      layout: 'horizontal',
+    }
   } else {
     return {
       count: expanded.value && allCount > 1 ? allCount : 1,
-      width: "w-full",
-      layout: "vertical",
+      width: 'w-full',
+      layout: 'vertical',
       fullRow: true,
-    };
+    }
   }
-});
+})
 const expandShow = computed(() => {
   return (
     (expanded.value && containerHeight.value > 32) ||
     responsiveAttrs.value.count < props.items.length
-  );
-});
+  )
+})
 
 const reset = () => {
-  formRef.value!.resetFields();
-  emits("search", cloneDeep(formModel.value));
-};
+  formRef.value!.resetFields()
+  emits('search', cloneDeep(formModel.value))
+}
 const query = () => {
-  emits("search", cloneDeep(formModel.value));
-};
+  emits('search', cloneDeep(formModel.value))
+}
 const expandHandler = () => {
-  expanded.value = !expanded.value;
-  emits("expand", expanded.value);
-};
+  expanded.value = !expanded.value
+  emits('expand', expanded.value)
+}
 </script>
 
 <template>
@@ -107,7 +107,7 @@ const expandHandler = () => {
           @click="expandHandler"
           v-show="expandShow"
         >
-          {{ expanded ? "Collapsed" : "Expand" }}
+          {{ expanded ? 'Collapsed' : 'Expand' }}
           <UpOutlined v-if="expanded" />
           <DownOutlined v-else />
         </Button>
